@@ -118,9 +118,18 @@ Route::middleware('auth:api')->post(' /user/create', function (Request $request)
 
 Route::any('*', function (Request $request) {
 
+    Log::info(dump($request->header()) . '\n' . dump(Input::all()));
+
     $requestId = $request->hasHeader('request-id')
         ? $request->header('request-id')
         : (string) Str::uuid();
+
+    Log::info(dump([
+        "request_id" => $requestId,
+        "status" => "error",
+        "code" => "40001",
+        "error_message" => "Вызываемый метод отсутствуе",
+    ]));
 
     return response([
             "request_id" => $requestId,
